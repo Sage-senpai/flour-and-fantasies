@@ -1,0 +1,150 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.account {
+  min-height: 100vh;
+  padding: $spacing-2xl 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: $chocolate-brown;
+    margin-bottom: $spacing-md;
+    font-family: $font-secondary;
+  }
+
+  p {
+    font-size: 1.25rem;
+    color: $text-light;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: $spacing-2xl;
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info {
+  h2 {
+    font-size: 1.5rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+
+
+.infoCard {
+@include glassy-card;
+border-radius: $radius-xl;
+padding: $spacing-lg;
+}
+.infoRow {
+display: flex;
+justify-content: space-between;
+padding: $spacing-md 0;
+border-bottom: 1px solid $border-color;
+&:last-child {
+border-bottom: none;
+}
+}
+.label {
+font-weight: 600;
+color: $text-light;
+}
+.value {
+color: $chocolate-brown;
+font-weight: 500;
+}
+.orders {
+h2 {
+font-size: 1.5rem;
+color: $chocolate-brown;
+margin-bottom: $spacing-lg;
+}
+}
+.noOrders {
+@include glassy-card;
+border-radius: $radius-xl;
+padding: $spacing-2xl;
+text-align: center;
+color: $text-light;
+}
+.ordersList {
+display: flex;
+flex-direction: column;
+gap: $spacing-lg;
+}
+.order {
+@include glassy-card;
+border-radius: $radius-xl;
+padding: $spacing-lg;
+}
+.orderHeader {
+display: flex;
+justify-content: space-between;
+align-items: start;
+margin-bottom: $spacing-md;
+padding-bottom: $spacing-md;
+border-bottom: 1px solid $border-color;
+div {
+display: flex;
+flex-direction: column;
+gap: $spacing-xs;
+}
+}
+.orderId {
+font-weight: 700;
+color: $chocolate-brown;
+font-size: 1.125rem;
+}
+.orderDate {
+font-size: 0.875rem;
+color: $text-light;
+}
+.status {
+padding: $spacing-xs $spacing-md;
+border-radius: $radius-full;
+font-size: 0.875rem;
+font-weight: 600;
+text-transform: uppercase;
+&.pending {
+background: rgba(251, 191, 36, 0.2);
+color: #f59e0b;
+}
+&.processing {
+background: rgba(59, 130, 246, 0.2);
+color: #3b82f6;
+}
+&.completed {
+background: rgba(34, 197, 94, 0.2);
+color: #22c55e;
+}
+}
+.orderItems {
+margin-bottom: $spacing-md;
+}
+.orderItem {
+display: flex;
+justify-content: space-between;
+padding: $spacing-sm 0;
+color: $text-light;
+}
+.orderTotal {
+display: flex;
+justify-content: space-between;
+padding-top: $spacing-md;
+border-top: 1px solid $border-color;
+font-weight: 700;
+font-size: 1.25rem;
+color: $chocolate-brown;
+}

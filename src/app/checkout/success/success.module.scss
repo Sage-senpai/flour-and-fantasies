@@ -1,0 +1,40 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.container {
+  min-height: 100vh;
+  @include flex-center;
+  padding: $spacing-2xl;
+}
+
+.card {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+  text-align: center;
+  max-width: 500px;
+}
+
+.icon {
+  font-size: 5rem;
+  margin-bottom: $spacing-lg;
+}
+
+.card h1 {
+  font-size: 2.5rem;
+  color: $chocolate-brown;
+  margin-bottom: $spacing-md;
+  font-family: $font-secondary;
+}
+
+.card p {
+  color: $text-light;
+  font-size: 1.125rem;
+  margin-bottom: $spacing-xl;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}

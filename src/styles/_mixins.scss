@@ -1,0 +1,43 @@
+@import './variables';
+
+@mixin glassy-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid $border-color;
+  box-shadow: 0 8px 32px rgba(247, 198, 214, 0.2);
+}
+
+@mixin pastel-shadow {
+  box-shadow: 
+    0 4px 16px rgba(247, 198, 214, 0.3),
+    0 8px 32px rgba(255, 234, 240, 0.2);
+}
+
+@mixin hover-lift {
+  transition: transform $transition-normal, box-shadow $transition-normal;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+      0 8px 24px rgba(247, 198, 214, 0.4),
+      0 16px 48px rgba(255, 234, 240, 0.3);
+  }
+}
+
+@mixin responsive($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin grid-auto($min-width) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: $spacing-lg;
+}

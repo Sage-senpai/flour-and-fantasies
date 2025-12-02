@@ -1,0 +1,71 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.adminLayout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  gap: $spacing-2xl;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sidebar {
+  @include glassy-card;
+  border-radius: 0;
+  padding: $spacing-2xl $spacing-lg;
+  height: calc(100vh - 80px);
+  position: sticky;
+  top: 80px;
+
+  @media (max-width: $breakpoint-lg) {
+    position: static;
+    height: auto;
+  }
+}
+
+.sidebarHeader {
+  margin-bottom: $spacing-xl;
+  padding-bottom: $spacing-lg;
+  border-bottom: 2px solid $border-color;
+
+  h2 {
+    color: $chocolate-brown;
+    font-family: $font-secondary;
+    font-size: 1.75rem;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.navLink {
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  color: $text-dark;
+  font-weight: 500;
+  transition: all $transition-fast;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &:hover {
+    background: rgba(247, 198, 214, 0.2);
+    color: $chocolate-brown;
+    transform: translateX(4px);
+  }
+}
+
+.main {
+  padding: $spacing-2xl;
+  min-height: 100vh;
+
+  @media (max-width: $breakpoint-lg) {
+    padding: $spacing-lg;
+  }
+}

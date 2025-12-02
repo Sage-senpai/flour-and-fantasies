@@ -1,0 +1,155 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(91, 58, 41, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  @include glassy-card;
+  border-radius: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $border-color;
+
+  h2 {
+    margin: 0;
+    color: $chocolate-brown;
+  }
+}
+
+.closeButton {
+  background: none;
+  font-size: 2rem;
+  color: $text-light;
+  line-height: 1;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $chocolate-brown;
+  }
+}
+
+.items {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-lg;
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-lg;
+  height: 100%;
+  color: $text-light;
+}
+
+.item {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  @include glassy-card;
+  border-radius: $radius-lg;
+  margin-bottom: $spacing-md;
+  position: relative;
+}
+
+.itemImage {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: $radius-md;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.itemDetails {
+  flex: 1;
+
+  h3 {
+    font-size: 1rem;
+    margin-bottom: $spacing-xs;
+    color: $chocolate-brown;
+  }
+}
+
+.itemPrice {
+  color: $text-light;
+  margin-bottom: $spacing-sm;
+  font-weight: 600;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  button {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-sm;
+    background: $pastel-pink-accent;
+    color: $chocolate-brown;
+    font-weight: 700;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $matte-baby-pink;
+    }
+  }
+
+  span {
+    min-width: 32px;
+    text-align: center;
+    font-weight: 600;
+  }
+}
+
+.removeButton {
+  background: none;
+  font-size: 1.25rem;
+  padding: $spacing-xs;
+  opacity: 0.6;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.footer {
+  padding: $spacing-lg;
+  border-top: 1px solid $border-color;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $chocolate-brown;
+}

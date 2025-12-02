@@ -1,0 +1,64 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.createProduct {
+  max-width: 800px;
+
+  h1 {
+    font-size: 2.5rem;
+    color: $chocolate-brown;
+    margin: $spacing-xl 0 $spacing-2xl;
+    font-family: $font-secondary;
+  }
+}
+
+.form {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  label {
+    font-weight: 600;
+    color: $chocolate-brown;
+  }
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-lg;
+}
+
+.select,
+.textarea {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  border: 2px solid $border-color;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  font-size: 1rem;
+  color: $text-dark;
+  font-family: inherit;
+  transition: all $transition-normal;
+
+  &:focus {
+    outline: none;
+    border-color: $matte-baby-pink;
+    box-shadow: 0 0 0 3px rgba(247, 198, 214, 0.2);
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}

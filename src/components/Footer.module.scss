@@ -1,0 +1,57 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.footer {
+  @include glassy-card;
+  margin-top: auto;
+  padding: $spacing-2xl 0 $spacing-lg;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xl;
+}
+
+.column {
+  h3, h4 {
+    color: $chocolate-brown;
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    color: $text-light;
+    margin-bottom: $spacing-sm;
+  }
+
+  ul {
+    list-style: none;
+    
+    li {
+      margin-bottom: $spacing-sm;
+      
+      a {
+        color: $text-light;
+        transition: color $transition-fast;
+        
+        &:hover {
+          color: $matte-baby-pink;
+        }
+      }
+    }
+  }
+}
+
+.copyright {
+  text-align: center;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-color;
+  color: $text-light;
+}

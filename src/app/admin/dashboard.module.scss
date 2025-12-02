@@ -1,0 +1,142 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.dashboard {
+  h1 {
+    font-size: 2.5rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-2xl;
+    font-family: $font-secondary;
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+}
+
+.statCard {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  display: flex;
+  gap: $spacing-lg;
+  align-items: center;
+  transition: transform $transition-normal;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.statIcon {
+  font-size: 3rem;
+  width: 80px;
+  height: 80px;
+  @include flex-center;
+  background: linear-gradient(135deg, $matte-baby-pink, $pastel-pink-accent);
+  border-radius: $radius-lg;
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $chocolate-brown;
+}
+
+.recentOrders {
+  h2 {
+    font-size: 1.75rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.ordersTable {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  overflow: hidden;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      background: rgba(247, 198, 214, 0.3);
+
+      th {
+        padding: $spacing-md;
+        text-align: left;
+        font-weight: 600;
+        color: $chocolate-brown;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid $border-color;
+        transition: background $transition-fast;
+
+        &:hover {
+          background: rgba(255, 234, 240, 0.3);
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+
+      td {
+        padding: $spacing-md;
+        color: $text-dark;
+      }
+    }
+  }
+}
+
+.status {
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-full;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+
+  &.pending {
+    background: rgba(251, 191, 36, 0.2);
+    color: #f59e0b;
+  }
+
+  &.processing {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+  }
+
+  &.completed {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+
+  &.cancelled {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+}

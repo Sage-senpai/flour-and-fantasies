@@ -1,0 +1,147 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.product {
+  min-height: 100vh;
+  padding: $spacing-2xl 0;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-2xl;
+  align-items: start;
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.imageSection {
+  position: sticky;
+  top: calc($spacing-2xl + 80px);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  @include glassy-card;
+  @include pastel-shadow;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.details {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+}
+
+.category {
+  display: inline-block;
+  color: $matte-baby-pink;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: $spacing-sm;
+}
+
+.details h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: $chocolate-brown;
+  margin-bottom: $spacing-md;
+  font-family: $font-secondary;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $chocolate-brown;
+  margin-bottom: $spacing-lg;
+  display: block;
+}
+
+.description {
+  padding: $spacing-lg 0;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: $spacing-lg;
+
+  p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: $text-light;
+  }
+}
+
+.stock {
+  margin-bottom: $spacing-lg;
+}
+
+.inStock {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.outOfStock {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.quantity {
+  margin-bottom: $spacing-lg;
+
+  label {
+    display: block;
+    font-weight: 600;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  button {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-md;
+    background: $pastel-pink-accent;
+    color: $chocolate-brown;
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: all $transition-fast;
+
+    &:hover:not(:disabled) {
+      background: $matte-baby-pink;
+      transform: scale(1.05);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    min-width: 48px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $chocolate-brown;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}

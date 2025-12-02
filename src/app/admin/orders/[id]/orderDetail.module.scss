@@ -1,0 +1,143 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.orderDetail {
+  max-width: 1000px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin: $spacing-xl 0 $spacing-2xl;
+
+  h1 {
+    font-size: 2rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-xs;
+    font-family: $font-secondary;
+  }
+
+  p {
+    color: $text-light;
+  }
+}
+
+.status {
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-full;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &.pending {
+    background: rgba(251, 191, 36, 0.2);
+    color: #f59e0b;
+  }
+
+  &.processing {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+  }
+
+  &.completed {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+
+  &.cancelled {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.section {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+
+  h2 {
+    font-size: 1.5rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-sm 0;
+  border-bottom: 1px solid $border-color;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  span:first-child {
+    font-weight: 600;
+    color: $text-light;
+  }
+
+  span:last-child {
+    color: $chocolate-brown;
+  }
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-md;
+  background: rgba(255, 234, 240, 0.3);
+  border-radius: $radius-md;
+
+  h3 {
+    color: $chocolate-brown;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    color: $text-light;
+    font-size: 0.875rem;
+  }
+}
+
+.price {
+  font-weight: 700;
+  color: $chocolate-brown;
+  font-size: 1.125rem;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: $spacing-md;
+  border-top: 2px solid $border-color;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $chocolate-brown;
+}
+
+.statusButtons {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}

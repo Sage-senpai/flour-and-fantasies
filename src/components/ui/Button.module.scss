@@ -1,0 +1,54 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.button {
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-full;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all $transition-normal;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  &.primary {
+    background: linear-gradient(135deg, $matte-baby-pink, $pastel-pink-accent);
+    color: $chocolate-brown;
+    box-shadow: 0 4px 16px rgba(247, 198, 214, 0.4);
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 6px 24px rgba(247, 198, 214, 0.6);
+    }
+  }
+
+  &.secondary {
+    background: $chocolate-brown;
+    color: $soft-white;
+    box-shadow: 0 4px 16px rgba(91, 58, 41, 0.3);
+
+    &:hover:not(:disabled) {
+      background: lighten($chocolate-brown, 5%);
+      box-shadow: 0 6px 24px rgba(91, 58, 41, 0.5);
+    }
+  }
+
+  &.outline {
+    background: transparent;
+    color: $chocolate-brown;
+    border: 2px solid $matte-baby-pink;
+
+    &:hover:not(:disabled) {
+      background: rgba(247, 198, 214, 0.1);
+    }
+  }
+}

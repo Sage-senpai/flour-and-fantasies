@@ -1,0 +1,67 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.hero {
+  position: relative;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl $spacing-lg;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 30% 50%,
+      rgba(247, 198, 214, 0.3),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+}
+
+.content {
+  max-width: 800px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: $spacing-lg;
+  color: $chocolate-brown;
+  font-family: $font-secondary;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: $text-light;
+  margin-bottom: $spacing-xl;
+  line-height: 1.6;
+}
+
+.buttons {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.floatingElement {
+  position: absolute;
+  font-size: 8rem;
+  opacity: 0.1;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  
+  @media (max-width: $breakpoint-md) {
+    font-size: 4rem;
+  }
+}

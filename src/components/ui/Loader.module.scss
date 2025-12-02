@@ -1,0 +1,16 @@
+@import '../../styles/variables';
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-xl;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid $pastel-pink-accent;
+  border-top-color: $matte-baby-pink;
+  border-radius: 50%;
+}
