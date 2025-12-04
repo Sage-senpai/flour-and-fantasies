@@ -1,14 +1,17 @@
-
 @import '../styles/variables';
 @import '../styles/mixins';
 @import '../styles/responsive';
 
 .card {
   @include glassy-card;
-  border-radius: $radius-xl;
+  border-radius: $radius-lg;
   overflow: hidden;
   transition: all $transition-normal;
   cursor: pointer;
+
+  @include desktop-up {
+    border-radius: $radius-xl;
+  }
 
   &:hover {
     @include pastel-shadow;
@@ -18,9 +21,13 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  height: 280px;
+  height: 220px;
   overflow: hidden;
   background: $pastel-pink-accent;
+
+  @include desktop-up {
+    height: 280px;
+  }
 }
 
 .image {
@@ -34,58 +41,118 @@
 
 .badge {
   position: absolute;
-  top: $spacing-md;
-  right: $spacing-md;
+  top: $spacing-sm;
+  right: $spacing-sm;
   background: $chocolate-brown;
   color: $soft-white;
-  padding: $spacing-xs $spacing-md;
+  padding: $spacing-xs $spacing-sm;
   border-radius: $radius-full;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
+
+  @include desktop-up {
+    top: $spacing-md;
+    right: $spacing-md;
+    padding: $spacing-xs $spacing-md;
+    font-size: 0.875rem;
+  }
+}
+
+.couponBadge {
+  position: absolute;
+  top: $spacing-sm;
+  left: $spacing-sm;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: $soft-white;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  @include desktop-up {
+    top: $spacing-md;
+    left: $spacing-md;
+    padding: $spacing-xs $spacing-md;
+    font-size: 0.875rem;
+  }
 }
 
 .content {
-  padding: $spacing-lg;
+  padding: $spacing-md;
+
+  @include desktop-up {
+    padding: $spacing-lg;
+  }
 }
 
 .category {
   display: inline-block;
   color: $matte-baby-pink;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: $spacing-xs;
+
+  @include desktop-up {
+    font-size: 0.875rem;
+  }
 }
 
 .name {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: $chocolate-brown;
   margin-bottom: $spacing-sm;
   font-family: $font-secondary;
+
+  @include desktop-up {
+    font-size: 1.5rem;
+  }
 }
 
 .description {
   color: $text-light;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   line-height: 1.6;
   margin-bottom: $spacing-md;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow: hidden; 
+  orient: vertical;
+overflow: hidden;
+@include desktop-up {
+font-size: 0.9375rem;
 }
-
+}
 .footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: $spacing-md;
-  border-top: 1px solid $border-color;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-top: $spacing-md;
+border-top: 1px solid $border-color;
+gap: $spacing-sm;
+flex-wrap: wrap;
 }
-
 .price {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: $chocolate-brown;
+font-size: 1.25rem;
+font-weight: 700;
+color: $chocolate-brown;
+@include desktop-up {
+font-size: 1.5rem;
+}
+}
+.couponPrice {
+font-size: 1rem;
+font-weight: 600;
+color: #22c55e;
+display: flex;
+align-items: center;
+gap: 4px;
+@include desktop-up {
+font-size: 1.125rem;
+}
 }

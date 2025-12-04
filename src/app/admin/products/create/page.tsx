@@ -16,17 +16,20 @@ export default function CreateProductPage() {
     slug: '',
     price: '',
     category: 'Cakes',
-    description: 'describe flavour and design',
+    description: '',
     image: '',
     stock: '',
+    couponEligible: false,
+    couponPrice: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
     
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
       ...(name === 'name' && { slug: value.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') }),
     }));
   };
@@ -42,6 +45,11 @@ export default function CreateProductPage() {
       toast.error('Please upload a product image');
       return;
     }
+
+    if (formData.couponEligible && !formData.couponPrice) {
+      toast.error('Please set a coupon price for this product');
+      return;
+    }
     
     setLoading(true);
 
@@ -53,6 +61,9 @@ export default function CreateProductPage() {
           ...formData,
           price: parseFloat(formData.price),
           stock: parseInt(formData.stock),
+          couponPrice: formData.couponEligible && formData.couponPrice 
+            ? parseFloat(formData.couponPrice) 
+            : null,
         }),
       });
 
@@ -160,6 +171,40 @@ export default function CreateProductPage() {
             rows={4}
             placeholder="Describe your product..."
           />
+        </div>
+
+        {/* Coupon Options */}
+        <div className={styles.couponSection}>
+          <div className={styles.checkboxGroup}>
+            <input
+              type="checkbox"
+              id="couponEligible"
+              name="couponEligible"
+              checked={formData.couponEligible}
+              onChange={handleChange}
+              className={styles.checkbox}
+            />
+            <label htmlFor="couponEligible" className={styles.checkboxLabel}>
+              🎟️ This product can be purchased with coupons
+            </label>
+          </div>
+
+          {formData.couponEligible && (
+            <div className={styles.formGroup}>
+              <label>Coupon Price (₦) *</label>
+              <Input
+                type="number"
+                name="couponPrice"
+                value={formData.couponPrice}
+                onChange={handleChange}
+                step="0.01"
+                placeholder="Enter coupon price in Naira"
+              />
+              <span className={styles.hint}>
+                Amount of coupon credits needed to purchase this item
+              </span>
+            </div>
+          )}
         </div>
 
         <Button type="submit" fullWidth disabled={loading}>

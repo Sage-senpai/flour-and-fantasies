@@ -43,6 +43,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             className={styles.image}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+          {product.couponEligible && (
+            <div className={styles.couponBadge}>🎟️ Coupon</div>
+          )}
           {product.stock < 5 && (
             <div className={styles.badge}>Limited Stock</div>
           )}
@@ -54,7 +57,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           <p className={styles.description}>{product.description}</p>
           
           <div className={styles.footer}>
-            <span className={styles.price}>{formatPrice(product.price)}</span>
+            <div>
+              <span className={styles.price}>{formatPrice(product.price)}</span>
+              {product.couponEligible && product.couponPrice && (
+                <span className={styles.couponPrice}>
+                  🎟️ ₦{product.couponPrice}
+                </span>
+              )}
+            </div>
             <Button onClick={handleAddToCart}>
               Add to Cart
             </Button>
