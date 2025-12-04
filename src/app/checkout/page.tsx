@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import {
   selectCartItems,
   selectCartTotal,
@@ -43,11 +44,13 @@ export default function CheckoutPage() {
     e.preventDefault();
     
     if (!session) {
+      toast.error('Please sign in to continue checkout');
       router.push('/auth/signin?callbackUrl=/checkout');
       return;
     }
 
     setLoading(true);
+    const loadingToast = toast.loading('Processing your order...');
 
     try {
       const response = await fetch('/api/checkout', {
@@ -65,11 +68,16 @@ export default function CheckoutPage() {
       const data = await response.json();
 
       if (data.url) {
+        toast.dismiss(loadingToast);
+        toast.success('Redirecting to payment...');
         window.location.href = data.url;
+      } else {
+        throw new Error('No payment URL received');
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      alert('Failed to process checkout. Please try again.');
+      toast.dismiss(loadingToast);
+      toast.error('Failed to process checkout. Please try again.');
     } finally {
       setLoading(false);
     }

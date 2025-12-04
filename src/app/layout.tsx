@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import Providers from './providers';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import ToastProvider from '@/components/ToastProvider';
 import CartDrawer from '@/components/CartDrawer';
 import './globals.scss';
 
@@ -23,6 +24,7 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Providers session={session}>
+           <ToastProvider />
           <Navigation />
           <main>{children}</main>
           <Footer />

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
 import { addToCart } from '@/features/cart/cartSlice';
 import { Product } from '@/types';
 import { formatPrice } from '@/utils/formatPrice';
@@ -20,6 +21,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(addToCart(product));
+    toast.success(`${product.name} added to cart! 🎂`, {
+      icon: '🛍️',
+    });
   };
 
   return (

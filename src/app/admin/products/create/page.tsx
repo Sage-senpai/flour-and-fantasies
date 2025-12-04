@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import ImageUpload from '@/components/ImageUpload';
 import styles from './createProduct.module.scss';
 
 export default function CreateProductPage() {
@@ -14,7 +16,7 @@ export default function CreateProductPage() {
     slug: '',
     price: '',
     category: 'Cakes',
-    description: '',
+    description: 'describe flavour and design',
     image: '',
     stock: '',
   });
@@ -29,8 +31,18 @@ export default function CreateProductPage() {
     }));
   };
 
+  const handleImageChange = (url: string) => {
+    setFormData(prev => ({ ...prev, image: url }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.image) {
+      toast.error('Please upload a product image');
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -46,11 +58,12 @@ export default function CreateProductPage() {
 
       if (!res.ok) throw new Error('Failed to create product');
 
+      toast.success('Product created successfully! 🎂');
       router.push('/admin/products');
       router.refresh();
     } catch (error) {
       console.error(error);
-      alert('Failed to create product');
+      toast.error('Failed to create product');
     } finally {
       setLoading(false);
     }
@@ -65,6 +78,14 @@ export default function CreateProductPage() {
       <h1>Create New Product</h1>
 
       <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label>Product Image *</label>
+          <ImageUpload
+            value={formData.image}
+            onChange={handleImageChange}
+          />
+        </div>
+
         <div className={styles.formGroup}>
           <label>Product Name *</label>
           <Input
@@ -83,78 +104,68 @@ export default function CreateProductPage() {
             value={formData.slug}
             onChange={handleChange}
             required
-            placeholder="e.g., rose-velvet-cake"
+            placeholder="Auto-generated from name"
           />
         </div>
+
         <div className={styles.formRow}>
-      <div className={styles.formGroup}>
-        <label>Price ($) *</label>
-        <Input
-          type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          required
-          step="0.01"
-          placeholder="0.00"
-        />
-      </div>
+          <div className={styles.formGroup}>
+            <label>Price ($) *</label>
+            <Input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              required
+              step="0.01"
+              placeholder="0.00"
+            />
+          </div>
 
-      <div className={styles.formGroup}>
-        <label>Stock *</label>
-        <Input
-          type="number"
-          name="stock"
-          value={formData.stock}
-          onChange={handleChange}
-          required
-          placeholder="0"
-        />
-      </div>
+          <div className={styles.formGroup}>
+            <label>Stock *</label>
+            <Input
+              type="number"
+              name="stock"
+              value={formData.stock}
+              onChange={handleChange}
+              required
+              placeholder="0"
+            />
+          </div>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Category *</label>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className={styles.select}
+            required
+          >
+            <option value="Cakes">Cakes</option>
+            <option value="Pastries">Pastries</option>
+          </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Description *</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            className={styles.textarea}
+            rows={4}
+            placeholder="Describe your product..."
+          />
+        </div>
+
+        <Button type="submit" fullWidth disabled={loading}>
+          {loading ? 'Creating...' : 'Create Product'}
+        </Button>
+      </form>
     </div>
-
-    <div className={styles.formGroup}>
-      <label>Category *</label>
-      <select
-        name="category"
-        value={formData.category}
-        onChange={handleChange}
-        className={styles.select}
-        required
-      >
-        <option value="Cakes">Cakes</option>
-        <option value="Pastries">Pastries</option>
-      </select>
-    </div>
-
-    <div className={styles.formGroup}>
-      <label>Image URL *</label>
-      <Input
-        name="image"
-        value={formData.image}
-        onChange={handleChange}
-        required
-        placeholder="/products/image.jpg"
-      />
-    </div>
-
-    <div className={styles.formGroup}>
-      <label>Description *</label>
-      <textarea
-        name="description"
-        value={formData.description}
-        onChange={handleChange}
-        required
-        className={styles.textarea}
-        rows={4}
-        placeholder="Describe your product..."
-      />
-    </div>
-
-    <Button type="submit" fullWidth disabled={loading}>
-      {loading ? 'Creating...' : 'Create Product'}
-    </Button>
-  </form>
-</div>
-    );
+  );
 }

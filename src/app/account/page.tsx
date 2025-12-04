@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { formatPrice } from '@/utils/formatPrice';
+import WalletCard from '@/components/WalletCard';
 import styles from './account.module.scss';
 
 async function getUserOrders(userId: string) {
@@ -38,22 +39,27 @@ export default async function AccountPage() {
         </div>
 
         <div className={styles.content}>
-          <div className={styles.info}>
-            <h2>Account Information</h2>
-            <div className={styles.infoCard}>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>Name:</span>
-                <span className={styles.value}>{session.user.name}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>Email:</span>
-                <span className={styles.value}>{session.user.email}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>Role:</span>
-                <span className={styles.value}>{session.user.role}</span>
+          <div className={styles.sidebar}>
+            <div className={styles.info}>
+              <h2>Account Information</h2>
+              <div className={styles.infoCard}>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Name:</span>
+                  <span className={styles.value}>{session.user.name}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Email:</span>
+                  <span className={styles.value}>{session.user.email}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Role:</span>
+                  <span className={styles.value}>{session.user.role}</span>
+                </div>
               </div>
             </div>
+
+            {/* Wallet Card */}
+            <WalletCard />
           </div>
 
           <div className={styles.orders}>
@@ -84,13 +90,22 @@ export default async function AccountPage() {
                         <div key={item.id} className={styles.orderItem}>
                           <span>{item.product.name}</span>
                           <span>× {item.quantity}</span>
+                          {item.paidWithCoupon && (
+                            <span className={styles.couponBadge}>🎟️ Coupon</span>
+                          )}
                         </div>
                       ))}
                     </div>
 
                     <div className={styles.orderTotal}>
-                      <span>Total:</span>
-                      <span>{formatPrice(order.total)}</span>
+                      <div>
+                        {order.couponUsed > 0 && (
+                          <span className={styles.couponUsed}>
+                            Coupon: -₦{order.couponUsed.toFixed(2)}
+                          </span>
+                        )}
+                        <span>Total: {formatPrice(order.cashPaid)}</span>
+                      </div>
                     </div>
                   </div>
                 ))}

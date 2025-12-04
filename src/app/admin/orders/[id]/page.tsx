@@ -2,6 +2,7 @@
 
 import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { formatPrice } from '@/utils/formatPrice';
 import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
@@ -44,6 +45,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
         setOrder(data);
       } catch (error) {
         console.error(error);
+        toast.error('Order not found');
         router.push('/admin/orders');
       } finally {
         setLoading(false);
@@ -55,6 +57,8 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
 
   const updateStatus = async (newStatus: string) => {
     setUpdating(true);
+    const loadingToast = toast.loading('Updating order status...');
+    
     try {
       const res = await fetch(`/api/orders/${resolvedParams.id}`, {
         method: 'PATCH',
@@ -66,9 +70,24 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
 
       const updated = await res.json();
       setOrder(updated);
+      
+      toast.dismiss(loadingToast);
+      toast.success(`Order status updated to ${newStatus}! 📦`);
+      
+      // Send notification to customer
+      await fetch('/api/notifications/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: updated.userId,
+          message: `Your order #${updated.id.slice(0, 8)} status has been updated to ${newStatus}`,
+          type: 'order_update',
+        }),
+      });
     } catch (error) {
       console.error(error);
-      alert('Failed to update order status');
+      toast.dismiss(loadingToast);
+      toast.error('Failed to update order status');
     } finally {
       setUpdating(false);
     }

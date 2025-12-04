@@ -1,0 +1,151 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+@import '../styles/responsive';
+
+.walletCard {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-lg;
+
+  @include desktop-up {
+    padding: $spacing-xl;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  @include flex-center;
+  background: linear-gradient(135deg, $matte-baby-pink, $pastel-pink-accent);
+  border-radius: $radius-lg;
+  font-size: 2rem;
+
+  @include desktop-up {
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.label {
+  font-size: 0.875rem;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
+}
+
+.balance {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $chocolate-brown;
+  font-family: $font-secondary;
+
+  @include desktop-up {
+    font-size: 2.5rem;
+  }
+}
+
+.earnings {
+  padding: $spacing-md;
+  background: rgba(247, 198, 214, 0.2);
+  border-radius: $radius-md;
+  margin-bottom: $spacing-lg;
+}
+
+.tip {
+  color: $chocolate-brown;
+  font-size: 0.875rem;
+  margin: 0;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
+}
+
+.transactions {
+  h3 {
+    font-size: 1.25rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-md;
+  border-bottom: 1px solid $border-color;
+  gap: $spacing-md;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @include mobile-only {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.transactionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  flex: 1;
+}
+
+.transactionDesc {
+  color: $text-dark;
+  font-weight: 500;
+  font-size: 0.875rem;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
+}
+
+.transactionDate {
+  font-size: 0.75rem;
+  color: $text-light;
+
+  @include desktop-up {
+    font-size: 0.875rem;
+  }
+}
+
+.transactionAmount {
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+
+  @include desktop-up {
+    font-size: 1.125rem;
+  }
+
+  &.positive {
+    color: #22c55e;
+  }
+
+  &.negative {
+    color: #ef4444;
+  }
+}

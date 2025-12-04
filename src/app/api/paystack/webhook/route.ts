@@ -8,10 +8,7 @@ export async function POST(req: NextRequest) {
     const signature = req.headers.get('x-paystack-signature');
 
     if (!signature) {
-      return NextResponse.json(
-        { error: 'No signature' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No signature' }, { status: 400 });
     }
 
     // Verify signature
@@ -21,10 +18,7 @@ export async function POST(req: NextRequest) {
       .digest('hex');
 
     if (hash !== signature) {
-      return NextResponse.json(
-        { error: 'Invalid signature' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
     }
 
     const event = JSON.parse(body);
@@ -33,41 +27,49 @@ export async function POST(req: NextRequest) {
     if (event.event === 'charge.success') {
       const { metadata } = event.data;
       const orderId = metadata.orderId;
+      const creditsEarned = metadata.creditsEarned || 0;
 
       if (orderId) {
         // Update order status
-        await prisma.order.update({
+        const order = await prisma.order.update({
           where: { id: orderId },
           data: { status: 'PROCESSING' },
-        });
-
-        // Get order items and update product stock
-        const order = await prisma.order.findUnique({
-          where: { id: orderId },
           include: { items: true },
         });
 
-        if (order) {
-          for (const item of order.items) {
-            await prisma.product.update({
-              where: { id: item.productId },
-              data: {
-                stock: {
-                  decrement: item.quantity,
-                },
-              },
-            });
-          }
+        // Update product stock
+        for (const item of order.items) {
+          await prisma.product.update({
+            where: { id: item.productId },
+            data: { stock: { decrement: item.quantity } },
+          });
         }
-      }
-    }
 
-    return NextResponse.json({ received: true });
-  } catch (error) {
-    console.error('Paystack webhook error:', error);
-    return NextResponse.json(
-      { error: 'Webhook processing failed' },
-      { status: 500 }
-    );
-  }
+        // Add coupon credits to user wallet
+        if (creditsEarned > 0) {
+          await prisma.user.update({
+            where: { id: order.userId },
+data: {
+walletBalance: { increment: creditsEarned },
+transactions: {
+create: {
+amount: creditsEarned,
+type: 'EARNED',
+description: Earned ₦${creditsEarned.toFixed(2)} from order #${order.id.slice(0, 8)},
+orderId: order.id,
+},
+},
+},
+});
+}
+}
+}
+return NextResponse.json({ received: true });
+} catch (error) {
+console.error('Paystack webhook error:', error);
+return NextResponse.json(
+{ error: 'Webhook processing failed' },
+{ status: 500 }
+);
+}
 }

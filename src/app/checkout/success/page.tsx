@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { clearCart } from '@/features/cart/cartSlice';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
 import styles from './success.module.scss';
@@ -23,9 +24,17 @@ export default function CheckoutSuccessPage() {
     if (orderId) {
       // Clear cart
       dispatch(clearCart());
+      
+      // Show success toast
+      toast.success('🎉 Order placed successfully! Your order is being processed.', {
+        duration: 6000,
+        icon: '🎂',
+      });
+      
       setLoading(false);
     } else {
       setError(true);
+      toast.error('❌ Payment failed. Please try again.');
       setLoading(false);
     }
   }, [searchParams, dispatch]);

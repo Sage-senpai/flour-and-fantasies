@@ -1,5 +1,6 @@
 @import '../styles/variables';
 @import '../styles/mixins';
+@import '../styles/responsive';
 
 .nav {
   position: sticky;
@@ -12,21 +13,30 @@
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: $spacing-md $spacing-lg;
+  padding: $spacing-sm $spacing-md;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  @include desktop-up {
+    padding: $spacing-md $spacing-lg;
+  }
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: $spacing-xs;
   font-family: $font-secondary;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: $chocolate-brown;
   transition: transform $transition-fast;
+
+  @include desktop-up {
+    font-size: 1.5rem;
+    gap: $spacing-sm;
+  }
 
   &:hover {
     transform: scale(1.05);
@@ -34,39 +44,64 @@
 }
 
 .logoIcon {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  
+  @include desktop-up {
+    font-size: 2rem;
+  }
 }
 
 .logoText {
-  @media (max-width: $breakpoint-sm) {
-    display: none;
+  display: none;
+  
+  @include tablet-up {
+    display: inline;
   }
 }
 
 .menu {
   display: flex;
   align-items: center;
-  gap: $spacing-lg;
+  gap: $spacing-sm;
+  
+  @include desktop-up {
+    gap: $spacing-lg;
+  }
 }
 
 .menuItem {
   color: $text-dark;
   font-weight: 500;
+  font-size: 0.875rem;
   transition: color $transition-fast;
   background: none;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-md;
 
-  &:hover {
-    color: $matte-baby-pink;
+  @include desktop-up {
+    font-size: 1rem;
+    padding: $spacing-xs $spacing-md;
+  }
+
+  &:hover,
+  &.active {
+    color: $soft-white;
+    background: $chocolate-brown;
   }
 }
 
 .cartButton {
   position: relative;
   background: linear-gradient(135deg, $matte-baby-pink, $pastel-pink-accent);
-  padding: $spacing-sm $spacing-md;
+  padding: $spacing-xs $spacing-sm;
   border-radius: $radius-full;
-  font-size: 1.25rem;
+  font-size: 1rem;
   transition: transform $transition-fast;
+
+  @include desktop-up {
+    padding: $spacing-sm $spacing-md;
+    font-size: 1.25rem;
+  }
 
   &:hover {
     transform: scale(1.1);
@@ -79,12 +114,18 @@
   right: -8px;
   background: $chocolate-brown;
   color: $soft-white;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 0.625rem;
   font-weight: 700;
+  
+  @include desktop-up {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
 }

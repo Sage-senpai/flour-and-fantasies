@@ -2,15 +2,21 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCart, selectCartCount } from '@/features/cart/cartSlice';
 import styles from './Navigation.module.scss';
 
 export default function Navigation() {
+  const pathname = usePathname();
   const { data: session } = useSession();
   const dispatch = useDispatch();
   const cartCount = useSelector(selectCartCount);
+
+  const isActive = (path: string) => {
+    return pathname === path || pathname.startsWith(path);
+  };
 
   return (
     <motion.nav
@@ -21,21 +27,30 @@ export default function Navigation() {
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
           <span className={styles.logoIcon}>🧁</span>
-          <span className={styles.logoText}>Flour & Fantasies </span>
+          <span className={styles.logoText}>Sweet Dreams Bakery</span>
         </Link>
 
         <div className={styles.menu}>
-          <Link href="/menu" className={styles.menuItem}>
+          <Link 
+            href="/menu" 
+            className={`${styles.menuItem} ${isActive('/menu') ? styles.active : ''}`}
+          >
             Menu
           </Link>
           {session?.user.role === 'ADMIN' && (
-            <Link href="/admin" className={styles.menuItem}>
+            <Link 
+              href="/admin" 
+              className={`${styles.menuItem} ${isActive('/admin') ? styles.active : ''}`}
+            >
               Admin
             </Link>
           )}
           {session ? (
             <>
-              <Link href="/account" className={styles.menuItem}>
+              <Link 
+                href="/account" 
+                className={`${styles.menuItem} ${isActive('/account') ? styles.active : ''}`}
+              >
                 Account
               </Link>
               <button
@@ -46,7 +61,10 @@ export default function Navigation() {
               </button>
             </>
           ) : (
-            <Link href="/auth/signin" className={styles.menuItem}>
+            <Link 
+              href="/auth/signin" 
+              className={`${styles.menuItem} ${isActive('/auth/signin') ? styles.active : ''}`}
+            >
               Sign In
             </Link>
           )}

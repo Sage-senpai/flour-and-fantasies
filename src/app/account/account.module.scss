@@ -1,150 +1,277 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
+@import '../../styles/responsive';
 
 .account {
   min-height: 100vh;
-  padding: $spacing-2xl 0;
+  padding: $spacing-lg 0;
+
+  @include desktop-up {
+    padding: $spacing-2xl 0;
+  }
 }
 
 .header {
   text-align: center;
-  margin-bottom: $spacing-2xl;
+  margin-bottom: $spacing-xl;
+
+  @include desktop-up {
+    margin-bottom: $spacing-2xl;
+  }
 
   h1 {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    @include heading-responsive(2rem, 3.5rem);
     color: $chocolate-brown;
     margin-bottom: $spacing-md;
     font-family: $font-secondary;
   }
 
   p {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: $text-light;
+
+    @include desktop-up {
+      font-size: 1.25rem;
+    }
   }
 }
 
 .content {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: $spacing-2xl;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
 
-  @media (max-width: $breakpoint-md) {
-    grid-template-columns: 1fr;
+  @include desktop-up {
+    grid-template-columns: 1fr 2fr;
+    gap: $spacing-2xl;
   }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
 }
 
 .info {
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: $chocolate-brown;
-    margin-bottom: $spacing-lg;
+    margin-bottom: $spacing-md;
+
+    @include desktop-up {
+      font-size: 1.5rem;
+      margin-bottom: $spacing-lg;
+    }
   }
 }
 
-
-
 .infoCard {
-@include glassy-card;
-border-radius: $radius-xl;
-padding: $spacing-lg;
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-md;
+
+  @include desktop-up {
+    padding: $spacing-lg;
+  }
 }
+
 .infoRow {
-display: flex;
-justify-content: space-between;
-padding: $spacing-md 0;
-border-bottom: 1px solid $border-color;
-&:last-child {
-border-bottom: none;
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-sm 0;
+  border-bottom: 1px solid $border-color;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
-}
+
 .label {
-font-weight: 600;
-color: $text-light;
+  font-weight: 600;
+  color: $text-light;
+  font-size: 0.875rem;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
 }
+
 .value {
-color: $chocolate-brown;
-font-weight: 500;
+  color: $chocolate-brown;
+  font-weight: 500;
+  font-size: 0.875rem;
+  word-break: break-word;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
 }
+
 .orders {
-h2 {
-font-size: 1.5rem;
-color: $chocolate-brown;
-margin-bottom: $spacing-lg;
+  h2 {
+    font-size: 1.25rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-md;
+
+    @include desktop-up {
+      font-size: 1.5rem;
+      margin-bottom: $spacing-lg;
+    }
+  }
 }
-}
+
 .noOrders {
-@include glassy-card;
-border-radius: $radius-xl;
-padding: $spacing-2xl;
-text-align: center;
-color: $text-light;
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  text-align: center;
+  color: $text-light;
+
+  @include desktop-up {
+    padding: $spacing-2xl;
+  }
 }
+
 .ordersList {
-display: flex;
-flex-direction: column;
-gap: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  @include desktop-up {
+    gap: $spacing-lg;
+  }
 }
+
 .order {
-@include glassy-card;
-border-radius: $radius-xl;
-padding: $spacing-lg;
+  @include glassy-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+
+  @include desktop-up {
+    border-radius: $radius-xl;
+    padding: $spacing-lg;
+  }
 }
+
 .orderHeader {
-display: flex;
-justify-content: space-between;
-align-items: start;
-margin-bottom: $spacing-md;
-padding-bottom: $spacing-md;
-border-bottom: 1px solid $border-color;
-div {
-display: flex;
-flex-direction: column;
-gap: $spacing-xs;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-color;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
 }
-}
+
 .orderId {
-font-weight: 700;
-color: $chocolate-brown;
-font-size: 1.125rem;
+  font-weight: 700;
+  color: $chocolate-brown;
+  font-size: 1rem;
+
+  @include desktop-up {
+    font-size: 1.125rem;
+  }
 }
+
 .orderDate {
-font-size: 0.875rem;
-color: $text-light;
+  font-size: 0.75rem;
+  color: $text-light;
+
+  @include desktop-up {
+    font-size: 0.875rem;
+  }
 }
+
 .status {
-padding: $spacing-xs $spacing-md;
-border-radius: $radius-full;
-font-size: 0.875rem;
-font-weight: 600;
-text-transform: uppercase;
-&.pending {
-background: rgba(251, 191, 36, 0.2);
-color: #f59e0b;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  @include desktop-up {
+    padding: $spacing-xs $spacing-md;
+    font-size: 0.875rem;
+  }
+
+  &.pending {
+    background: rgba(251, 191, 36, 0.2);
+    color: #f59e0b;
+  }
+
+  &.processing {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+  }
+
+  &.completed {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
 }
-&.processing {
-background: rgba(59, 130, 246, 0.2);
-color: #3b82f6;
-}
-&.completed {
-background: rgba(34, 197, 94, 0.2);
-color: #22c55e;
-}
-}
+
 .orderItems {
-margin-bottom: $spacing-md;
+  margin-bottom: $spacing-md;
 }
+
 .orderItem {
-display: flex;
-justify-content: space-between;
-padding: $spacing-sm 0;
-color: $text-light;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm 0;
+  color: $text-light;
+  font-size: 0.875rem;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
 }
+
+.couponBadge {
+  padding: 2px $spacing-sm;
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border-radius: $radius-sm;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 .orderTotal {
-display: flex;
-justify-content: space-between;
-padding-top: $spacing-md;
-border-top: 1px solid $border-color;
-font-weight: 700;
-font-size: 1.25rem;
-color: $chocolate-brown;
+  display: flex;
+  justify-content: space-between;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-color;
+  font-weight: 700;
+  font-size: 1rem;
+  color: $chocolate-brown;
+
+  @include desktop-up {
+    font-size: 1.25rem;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    align-items: flex-end;
+  }
+}
+
+.couponUsed {
+  font-size: 0.875rem;
+  color: #22c55e;
+  font-weight: 600;
 }
