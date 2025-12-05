@@ -26,8 +26,8 @@ export async function POST(req: NextRequest) {
     // Handle successful payment
     if (event.event === 'charge.success') {
       const { metadata } = event.data;
-      const orderId = metadata.orderId;
-      const creditsEarned = metadata.creditsEarned || 0;
+      const orderId = metadata?.orderId;
+      const creditsEarned = metadata?.creditsEarned || 0;
 
       if (orderId) {
         // Update order status
@@ -49,27 +49,28 @@ export async function POST(req: NextRequest) {
         if (creditsEarned > 0) {
           await prisma.user.update({
             where: { id: order.userId },
-data: {
-walletBalance: { increment: creditsEarned },
-transactions: {
-create: {
-amount: creditsEarned,
-type: 'EARNED',
-description: Earned ₦${creditsEarned.toFixed(2)} from order #${order.id.slice(0, 8)},
-orderId: order.id,
-},
-},
-},
-});
-}
-}
-}
-return NextResponse.json({ received: true });
-} catch (error) {
-console.error('Paystack webhook error:', error);
-return NextResponse.json(
-{ error: 'Webhook processing failed' },
-{ status: 500 }
-);
-}
+            data: {
+              walletBalance: { increment: creditsEarned },
+              transactions: {
+                create: {
+                  amount: creditsEarned,
+                  type: 'EARNED',
+                  description: `Earned ₦${creditsEarned.toFixed(2)} from order #${order.id.slice(0, 8)}`,
+                  orderId: order.id,
+                },
+              },
+            },
+          });
+        }
+      }
+    }
+
+    return NextResponse.json({ received: true });
+  } catch (error) {
+    console.error('Paystack webhook error:', error);
+    return NextResponse.json(
+      { error: 'Webhook processing failed' },
+      { status: 500 }
+    );
+  }
 }

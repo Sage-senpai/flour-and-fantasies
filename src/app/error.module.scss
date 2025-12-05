@@ -1,0 +1,36 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.error {
+  min-height: 100vh;
+  @include flex-center;
+  padding: $spacing-2xl;
+}
+
+.content {
+  @include glassy-card;
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+  text-align: center;
+  max-width: 600px;
+
+  h1 {
+    font-size: 2.5rem;
+    color: $chocolate-brown;
+    margin-bottom: $spacing-md;
+    font-family: $font-secondary;
+  }
+
+  p {
+    color: $text-light;
+    font-size: 1.125rem;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: center;
+  flex-wrap: wrap;
+}
