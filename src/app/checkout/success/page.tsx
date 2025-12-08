@@ -1,84 +1,100 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { clearCart } from '@/features/cart/cartSlice';
-import { motion } from 'framer-motion';
-import toast from 'react-hot-toast';
-import Button from '@/components/ui/Button';
-import Loader from '@/components/ui/Loader';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
+import { toast } from 'react-hot-toast';
 import styles from './success.module.scss';
 
 export default function CheckoutSuccessPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { clearCart } = useCart();
+  const reference = searchParams.get('reference');
 
   useEffect(() => {
-    const orderId = searchParams.get('order_id');
-    const reference = searchParams.get('reference');
+    let isMounted = true;
 
-    if (orderId) {
-      // Clear cart
-      dispatch(clearCart());
-      
-      // Show success toast
-      toast.success('🎉 Order placed successfully! Your order is being processed.', {
-        duration: 6000,
-        icon: '🎂',
-      });
-      
-      setLoading(false);
-    } else {
-      setError(true);
-      toast.error('❌ Payment failed. Please try again.');
-      setLoading(false);
-    }
-  }, [searchParams, dispatch]);
+    const verifyPayment = async () => {
+      if (!reference) {
+        if (isMounted) {
+          setError(true);
+          setLoading(false);
+        }
+        return;
+      }
 
-  if (loading) return <Loader />;
+      try {
+        const response = await fetch(`/api/verify-payment?reference=${reference}`);
+        const data = await response.json();
+
+        if (!isMounted) return;
+
+        if (data.success) {
+          toast.success('✅ Payment successful! Order confirmed.');
+          clearCart();
+        } else {
+          setError(true);
+          toast.error('❌ Payment verification failed. Please contact support.');
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(true);
+          toast.error('❌ An error occurred. Please contact support.');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    verifyPayment();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [reference, clearCart]);
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>
+          <div className={styles.spinner} />
+          <p>Verifying your payment...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
       <div className={styles.container}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className={styles.card}
-        >
-          <div className={styles.icon}>❌</div>
+        <div className={styles.error}>
           <h1>Payment Failed</h1>
-          <p>Something went wrong with your payment.</p>
-          <Button onClick={() => router.push('/menu')}>
-            Back to Menu
-          </Button>
-        </motion.div>
+          <p>We couldn&apos;t verify your payment. Please contact support with reference: {reference}</p>
+          <button onClick={() => router.push('/checkout')}>Try Again</button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className={styles.container}>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className={styles.card}
-      >
-        <div className={styles.icon}>✅</div>
-        <h1>Order Confirmed!</h1>
-        <p>Thank you for your purchase. Your order is being processed.</p>
-        <div className={styles.buttons}>
-          <Button onClick={() => router.push('/account')}>
-            View Orders
-          </Button>
-          <Button variant="outline" onClick={() => router.push('/menu')}>
+      <div className={styles.success}>
+        <div className={styles.checkmark}>✓</div>
+        <h1>Payment Successful!</h1>
+        <p>Thank you for your order. Your payment has been confirmed.</p>
+        <p className={styles.reference}>Reference: {reference}</p>
+        <button onClick={() => router.push('/account')}>View Orders</button>
+        <button onClick={() => router.push('/menu')}>
             Continue Shopping
-          </Button>
-        </div>
-      </motion.div>
+          </button>
+      </div>
     </div>
   );
 }
+          
+       

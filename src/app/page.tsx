@@ -1,6 +1,7 @@
 import AnimatedHero from '@/components/AnimatedHero';
 import ProductCard from '@/components/ProductCard';
 import { prisma } from '@/lib/prisma';
+import type { Product } from '@/types';
 import styles from './page.module.scss';
 
 export const revalidate = 3600; // Revalidate every hour
@@ -28,9 +29,9 @@ export default async function HomePage() {
           </div>
 
           <div className={styles.grid}>
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+           {featuredProducts.map((product: Product) => (
+  <ProductCard key={product.id} product={product} />
+))}
           </div>
         </div>
       </section>

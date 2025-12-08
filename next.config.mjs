@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactCompiler: true,
+  // Remove reactCompiler - not supported in Next.js 14
   images: {
     remotePatterns: [
       {

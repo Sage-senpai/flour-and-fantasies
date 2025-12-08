@@ -1,7 +1,6 @@
+// Empty config or delete the file entirely
 const config = {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
+  plugins: {},
 };
 
 export default config;

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { prisma } from '@/lib/prisma';
 import { formatPrice } from '@/utils/formatPrice';
 import Button from '@/components/ui/Button';
+import type { Product } from '@/types';
 import styles from './products.module.scss';
 
 async function getAllProducts() {
@@ -28,7 +29,7 @@ export default async function AdminProductsPage() {
       </div>
 
       <div className={styles.grid}>
-        {products.map((product) => (
+        {products.map((product: Product) => (
           <div key={product.id} className={styles.productCard}>
             <div className={styles.imageWrapper}>
               <Image

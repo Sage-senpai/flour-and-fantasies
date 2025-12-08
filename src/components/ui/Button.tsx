@@ -1,39 +1,43 @@
-'use client';
+import React from 'react';
+import type { ButtonProps } from '@/types';
 
-import { motion } from 'framer-motion';
-import styles from './Button.module.scss';
-
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'outline';
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-  fullWidth?: boolean;
-  className?: string;
-}
-
-export default function Button({
-  children,
+export const Button: React.FC<ButtonProps> = ({
   onClick,
-  variant = 'primary',
-  type = 'button',
-  disabled = false,
-  fullWidth = false,
+  children,
   className = '',
-}: ButtonProps) {
+  variant = 'primary',
+  size = 'md',
+  loading = false,
+  disabled = false,
+  type = 'button',
+  ...props
+}) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick && !disabled && !loading) {
+      onClick(e);
+    }
+  };
+
+  const baseClass = 'button';
+  const variantClass = `button--${variant}`;
+  const sizeClass = `button--${size}`;
+  const classes = `${baseClass} ${variantClass} ${sizeClass} ${className}`.trim();
+
   return (
-    <motion.button
-      whileHover={{ scale: disabled ? 1 : 1.02 }}
-      whileTap={{ scale: disabled ? 1 : 0.98 }}
-      className={`${styles.button} ${styles[variant]} ${
-        fullWidth ? styles.fullWidth : ''
-      } ${className}`}
-      onClick={onClick}
+    <button
       type={type}
-      disabled={disabled}
+      onClick={handleClick}
+      disabled={disabled || loading}
+      className={classes}
+      {...props}
     >
-      {children}
-    </motion.button>
+      {loading ? (
+        <span>Loading...</span>
+      ) : (
+        children
+      )}
+    </button>
   );
-}
+};
+
+export default Button;

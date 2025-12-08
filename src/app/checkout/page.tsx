@@ -9,18 +9,16 @@ import toast from 'react-hot-toast';
 import {
   selectCartItems,
   selectCartTotal,
-  clearCart,
+ 
 } from '@/features/cart/cartSlice';
 import { formatPrice } from '@/utils/formatPrice';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import Loader from '@/components/ui/Loader';
 import styles from './checkout.module.scss';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { data: session } = useSession();
+    const { data: session } = useSession();
   const items = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
   const [loading, setLoading] = useState(false);

@@ -1,39 +1,49 @@
-'use client';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
+import type { OrderNotification } from '@/types';
 
-import { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import toast from 'react-hot-toast';
+// Pusher types
+interface PusherChannel {
+  bind: (event: string, callback: (data: OrderNotification) => void) => void;
+  unbind_all: () => void;
+  unsubscribe: () => void;
+}
+
+interface Pusher {
+  subscribe: (channel: string) => PusherChannel;
+}
+
+declare global {
+  interface Window {
+    Pusher?: new (key: string, config: unknown) => Pusher;
+  }
+}
 
 export function useOrderNotifications() {
-  const { data: session } = useSession();
+  const [notifications, setNotifications] = useState<OrderNotification[]>([]);
 
   useEffect(() => {
-    if (!session) return;
+    if (!window.Pusher) {
+      console.warn('Pusher not loaded');
+      return;
+    }
 
-    // Poll for order updates every 30 seconds
-    const interval = setInterval(async () => {
-      try {
-        const res = await fetch('/api/orders/notifications');
-        const data = await res.json();
+    const pusher = new window.Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY || '', {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || 'mt1',
+    });
 
-        if (data.newOrders && session.user.role === 'ADMIN') {
-          toast.success(`${data.newOrders} new order(s) received! 🎉`, {
-            duration: 6000,
-          });
-        }
+    const channel = pusher.subscribe('admin-orders');
 
-        if (data.statusUpdates && session.user.role === 'USER') {
-          data.statusUpdates.forEach((update: any) => {
-            toast.success(`Your order #${update.id.slice(0, 8)} is now ${update.status}! 📦`, {
-              duration: 6000,
-            });
-          });
-        }
-      } catch (error) {
-        console.error('Notification polling error:', error);
-      }
-    }, 30000);
+    channel.bind('new-order', (data: OrderNotification) => {
+      setNotifications((prev) => [data, ...prev]);
+      toast.success('🔔 New order received!');
+    });
 
-    return () => clearInterval(interval);
-  }, [session]);
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  }, []);
+
+  return { notifications };
 }

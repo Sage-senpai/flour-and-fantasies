@@ -6,7 +6,26 @@ import { formatPrice } from '@/utils/formatPrice';
 import WalletCard from '@/components/WalletCard';
 import styles from './account.module.scss';
 
-async function getUserOrders(userId: string) {
+// Add proper type for order
+interface OrderWithItems {
+  id: string;
+  userId: string;
+  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'CANCELLED';
+  total: number;
+  couponUsed: number;
+  cashPaid: number;
+  createdAt: Date;
+  items: Array<{
+    id: string;
+    quantity: number;
+    paidWithCoupon: boolean;
+    product: {
+      name: string;
+    };
+  }>;
+}
+
+async function getUserOrders(userId: string): Promise<OrderWithItems[]> {
   const orders = await prisma.order.findMany({
     where: { userId },
     include: {
@@ -67,11 +86,11 @@ export default async function AccountPage() {
             
             {orders.length === 0 ? (
               <div className={styles.noOrders}>
-                <p>You haven't placed any orders yet.</p>
+                <p>You haven&apos;t placed any orders yet.</p>
               </div>
             ) : (
               <div className={styles.ordersList}>
-                {orders.map((order) => (
+                {orders.map((order: OrderWithItems) => (
                   <div key={order.id} className={styles.order}>
                     <div className={styles.orderHeader}>
                       <div>

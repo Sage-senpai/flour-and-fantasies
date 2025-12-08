@@ -2,8 +2,9 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { formatPrice } from '@/utils/formatPrice';
 import styles from './orders.module.scss';
+import type { OrderWithRelations } from '@/types';
 
-async function getAllOrders() {
+async function getAllOrders(): Promise<OrderWithRelations[]> {
   const orders = await prisma.order.findMany({
     include: {
       user: true,
@@ -41,7 +42,7 @@ export default async function AdminOrdersPage() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {orders.map((order: OrderWithRelations) => (
               <tr key={order.id}>
                 <td>#{order.id.slice(0, 8)}</td>
                 <td>{order.user.name}</td>
