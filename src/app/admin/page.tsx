@@ -81,7 +81,7 @@ export default async function AdminDashboard() {
               </tr>
             </thead>
             <tbody>
-             {recentOrders.map((order: OrderWithRelations) => (
+              {data.recentOrders.map((order: OrderWithRelations) => (
                 <tr key={order.id}>
                   <td>#{order.id.slice(0, 8)}</td>
                   <td>{order.user.name}</td>

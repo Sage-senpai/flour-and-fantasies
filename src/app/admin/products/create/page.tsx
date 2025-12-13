@@ -121,7 +121,7 @@ export default function CreateProductPage() {
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label>Price ($) *</label>
+            <label>Price (₦) *</label>
             <Input
               type="number"
               name="price"
@@ -133,32 +133,17 @@ export default function CreateProductPage() {
             />
           </div>
 
-          <div className={styles.field}>
-          <label htmlFor="price">Price (₦)</label>
-          <input
-              type="number"
-    id="price"
-    name="price"
-    value={formData.price}
-    onChange={handleChange}
-    required
-    step="0.01"
-    placeholder="0.00"
-    className={styles.input}
-  />
-</div>
-
           <div className={styles.formGroup}>
             <label>Stock *</label>
-            <input
-  type="number"
-  name="stock"
-  value={formData.stock}
-  onChange={handleChange}
-  step="1"
-  placeholder="0"
-  className={styles.input}
-/>
+            <Input
+              type="number"
+              name="stock"
+              value={formData.stock}
+              onChange={handleChange}
+              required
+              step="1"
+              placeholder="0"
+            />
           </div>
         </div>
 

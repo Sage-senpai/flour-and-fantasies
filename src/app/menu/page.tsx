@@ -1,9 +1,3 @@
-// ============================================================
-// FULLY MERGED MENU PAGE (Typed + Prisma + UI Structure)
-// ============================================================
-'use client'
-
-import React, { useState } from 'react';
 import { prisma } from '@/lib/prisma';
 import ProductCard from '@/components/ProductCard';
 import type { Category, Product } from '@/types';
@@ -31,15 +25,6 @@ export default async function MenuPage() {
     products: products.filter((p: Product) => p.category === name),
   }));
 
-  // Add "All" option
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-
-  // Filter categories properly
-  const filteredCategories =
-    activeCategory === 'All'
-      ? categories
-      : categories.filter((c: Category) => c.name === activeCategory);
-
   return (
     <div className={styles.menu}>
       <div className="container">
@@ -49,28 +34,8 @@ export default async function MenuPage() {
           <p>Explore our delightful collection of handcrafted treats</p>
         </div>
 
-        {/* Category Filter Buttons */}
-        <div className={styles.filters}>
-          <button
-            className={activeCategory === 'All' ? styles.active : ''}
-            onClick={() => setActiveCategory('All')}
-          >
-            All
-          </button>
-
-          {categories.map((cat) => (
-            <button
-              key={cat.name}
-              className={activeCategory === cat.name ? styles.active : ''}
-              onClick={() => setActiveCategory(cat.name)}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
         {/* Render Categories */}
-        {filteredCategories.map((category: Category) => (
+        {categories.map((category: Category) => (
           <section key={category.name} className={styles.category}>
             <h2>{category.name}</h2>
 
@@ -85,7 +50,3 @@ export default async function MenuPage() {
     </div>
   );
 }
-
-
-
-

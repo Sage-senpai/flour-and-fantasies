@@ -18,8 +18,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const dispatch = useDispatch();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleAddToCart = () => {
     dispatch(addToCart(product));
     toast.success(`${product.name} added to cart! 🎂`, {
       icon: '🛍️',
@@ -66,19 +65,17 @@ export default function ProductCard({ product }: ProductCardProps) {
               )}
             </div>
             <Button
-  onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    } 
-     handleAddToCart(); 
-       }}
-    className={styles.addToCart}
-    disabled={product.stock === 0}
-    
-     >
-     {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-     </Button>
+              onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                if (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
+                handleAddToCart();
+              }}
+              disabled={product.stock === 0}
+            >
+              {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+            </Button>
           </div>
         </div>
       </motion.div>

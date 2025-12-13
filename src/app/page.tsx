@@ -15,7 +15,7 @@ async function getFeaturedProducts() {
 }
 
 export default async function HomePage() {
-  const products = await getFeaturedProducts();
+  const featuredProducts = await getFeaturedProducts();
 
   return (
     <div className={styles.home}>
@@ -29,9 +29,9 @@ export default async function HomePage() {
           </div>
 
           <div className={styles.grid}>
-           {featuredProducts.map((product: Product) => (
-  <ProductCard key={product.id} product={product} />
-))}
+            {featuredProducts.map((product: Product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </section>

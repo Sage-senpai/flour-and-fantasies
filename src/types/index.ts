@@ -1,3 +1,9 @@
+// src/types/index.ts
+import { Prisma } from '@prisma/client';
+
+// ============================================
+// USER TYPES
+// ============================================
 export interface User {
   id: string;
   name: string;
@@ -6,27 +12,29 @@ export interface User {
   walletBalance: number;
 }
 
-export interface Product {
-  id: string;
+// ============================================
+// PRODUCT TYPES (Using Prisma-generated types)
+// ============================================
+export type Product = Prisma.ProductGetPayload<{}>;
+
+// Category with products
+export interface Category {
   name: string;
-  slug: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
-  stock: number;
-  couponEligible: boolean;
-  couponPrice: number | null;
-  createdAt: Date;
-  updatedAt: Date;
+  products: Product[];
 }
 
+// ============================================
+// CART TYPES
+// ============================================
 export interface CartItem {
   product: Product;
   quantity: number;
   useCoupon?: boolean; // Whether to use coupon for this item
 }
 
+// ============================================
+// ORDER TYPES
+// ============================================
 export interface Order {
   id: string;
   userId: string;
@@ -49,20 +57,7 @@ export interface OrderItem {
   paidWithCoupon: boolean;
 }
 
-export interface WalletTransaction {
-  id: string;
-  userId: string;
-  amount: number;
-  type: 'EARNED' | 'SPENT' | 'BONUS';
-  description: string;
-  orderId: string | null;
-  createdAt: Date;
-}
-
-
-import { Prisma } from '@prisma/client';
-
-// Order with full relations
+// Order with full relations (Prisma type)
 export type OrderWithRelations = Prisma.OrderGetPayload<{
   include: {
     user: true;
@@ -74,29 +69,37 @@ export type OrderWithRelations = Prisma.OrderGetPayload<{
   };
 }>;
 
-// Product type (use Prisma-generated type)
-export type Product = Prisma.ProductGetPayload<{}>;
-
-// Category with products
-export interface Category {
-  name: string;
-  products: Product[];
+// ============================================
+// WALLET TYPES
+// ============================================
+export interface WalletTransaction {
+  id: string;
+  userId: string;
+  amount: number;
+  type: 'EARNED' | 'SPENT' | 'BONUS';
+  description: string;
+  orderId: string | null;
+  createdAt: Date;
 }
 
-// Button Props - supporting both signatures
+// ============================================
+// UI COMPONENT TYPES
+// ============================================
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
+  fullWidth?: boolean;
 }
 
-// Input Props with step
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   step?: string | number;
 }
 
-// Paystack types
+// ============================================
+// PAYSTACK TYPES
+// ============================================
 export interface PaystackInitResponse {
   status: boolean;
   message: string;
@@ -120,7 +123,9 @@ export interface PaystackVerifyResponse {
   };
 }
 
-// Order notification
+// ============================================
+// NOTIFICATION TYPES
+// ============================================
 export interface OrderNotification {
   id: string;
   type: 'new_order' | 'status_update';

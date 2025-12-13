@@ -1,16 +1,10 @@
+// src/components/ui/Input.tsx
 'use client';
 
 import styles from './Input.module.scss';
 
-interface InputProps {
-  type?: string;
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  step?: string | number;
 }
 
 export default function Input({
@@ -22,6 +16,8 @@ export default function Input({
   required = false,
   disabled = false,
   className = '',
+  step,
+  ...rest
 }: InputProps) {
   return (
     <input
@@ -32,7 +28,9 @@ export default function Input({
       name={name}
       required={required}
       disabled={disabled}
+      step={step}
       className={`${styles.input} ${className}`}
+      {...rest}
     />
   );
 }
