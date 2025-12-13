@@ -19,7 +19,7 @@ export default function Error({
     <div className={styles.error}>
       <div className={styles.content}>
         <h1>🍰 Oops! Something went wrong</h1>
-        <p>We're sorry, but something unexpected happened.</p>
+        <p>We&apos;re sorry, but something went wrong.</p>
         <div className={styles.actions}>
           <Button onClick={() => reset()}>Try Again</Button>
           <Button variant="outline" onClick={() => window.location.href = '/'}>

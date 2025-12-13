@@ -15,7 +15,7 @@ export interface User {
 // ============================================
 // PRODUCT TYPES (Using Prisma-generated types)
 // ============================================
-export type Product = Prisma.ProductGetPayload<{}>;
+export type Product = Prisma.ProductGetPayload<Record<string, never>>;
 
 // Category with products
 export interface Category {

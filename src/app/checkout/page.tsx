@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -9,7 +9,6 @@ import toast from 'react-hot-toast';
 import {
   selectCartItems,
   selectCartTotal,
- 
 } from '@/features/cart/cartSlice';
 import { formatPrice } from '@/utils/formatPrice';
 import Button from '@/components/ui/Button';
@@ -18,7 +17,7 @@ import styles from './checkout.module.scss';
 
 export default function CheckoutPage() {
   const router = useRouter();
-    const { data: session } = useSession();
+  const { data: session } = useSession();
   const items = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
   const [loading, setLoading] = useState(false);
