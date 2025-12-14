@@ -1,7 +1,8 @@
+// src/app/menu/[slug]/page.tsx
 'use client';
 
-import { use, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -12,8 +13,8 @@ import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
 import styles from './product.module.scss';
 
-export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = use(params);
+export default function ProductPage() {
+  const params = useParams();
   const router = useRouter();
   const dispatch = useDispatch();
   const [product, setProduct] = useState<Product | null>(null);
@@ -23,7 +24,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(`/api/products/${resolvedParams.slug}`);
+        const res = await fetch(`/api/products/${params.slug}`);
         if (!res.ok) throw new Error('Product not found');
         const data = await res.json();
         setProduct(data);
@@ -35,8 +36,10 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
       }
     }
 
-    fetchProduct();
-  }, [resolvedParams.slug, router]);
+    if (params.slug) {
+      fetchProduct();
+    }
+  }, [params.slug, router]);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -113,10 +116,11 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
                 fullWidth
+                size="lg"
               >
                 Add to Cart
               </Button>
-              <Button variant="outline" onClick={() => router.back()}>
+              <Button variant="outline" onClick={() => router.back()} fullWidth size="lg">
                 Continue Shopping
               </Button>
             </div>

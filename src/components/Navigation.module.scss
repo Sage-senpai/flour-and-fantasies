@@ -1,3 +1,4 @@
+// src/components/Navigation.module.scss
 @import '../styles/variables';
 @import '../styles/mixins';
 @import '../styles/responsive';
@@ -6,8 +7,34 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  @include glassy-card;
-  border-radius: 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(247, 198, 214, 0.2);
+  box-shadow: 0 4px 24px rgba(247, 198, 214, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+
+  &.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 32px rgba(247, 198, 214, 0.2);
+  }
+}
+
+.borderGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    $matte-baby-pink,
+    $pastel-pink-accent,
+    $matte-baby-pink,
+    transparent
+  );
+  opacity: 0.6;
 }
 
 .container {
@@ -26,106 +53,186 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: $spacing-xs;
+  gap: $spacing-sm;
   font-family: $font-secondary;
-  font-size: 1.25rem;
   font-weight: 700;
   color: $chocolate-brown;
   transition: transform $transition-fast;
-
-  @include desktop-up {
-    font-size: 1.5rem;
-    gap: $spacing-sm;
-  }
+  position: relative;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
+
+    .logoIcon {
+      animation: wiggle 0.5s ease-in-out;
+    }
   }
 }
 
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
 .logoIcon {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 8px rgba(247, 198, 214, 0.4));
   
   @include desktop-up {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 }
 
 .logoText {
-  display: none;
-  
-  @include tablet-up {
-    display: inline;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.logoMain {
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+
+  @include desktop-up {
+    font-size: 1.5rem;
+  }
+}
+
+.logoSub {
+  font-size: 0.75rem;
+  color: $text-light;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+
+  @include desktop-up {
+    font-size: 0.875rem;
   }
 }
 
 .menu {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: $spacing-xs;
   
   @include desktop-up {
-    gap: $spacing-lg;
+    gap: $spacing-sm;
   }
 }
 
 .menuItem {
+  position: relative;
   color: $text-dark;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
-  transition: color $transition-fast;
-  background: none;
   padding: $spacing-xs $spacing-sm;
   border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  border: none;
+  cursor: pointer;
 
   @include desktop-up {
     font-size: 1rem;
-    padding: $spacing-xs $spacing-md;
+    padding: $spacing-sm $spacing-md;
   }
 
-  &:hover,
-  &.active {
-    color: $soft-white;
-    background: $chocolate-brown;
+  &:hover {
+    color: $chocolate-brown;
+    background: rgba(247, 198, 214, 0.2);
   }
+
+  &.active {
+    color: $chocolate-brown;
+    background: rgba(247, 198, 214, 0.3);
+  }
+
+  span:not(.menuIcon):not(.activeIndicator) {
+    @include mobile-only {
+      display: none;
+    }
+  }
+}
+
+.menuIcon {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  
+  @include desktop-up {
+    font-size: 1.125rem;
+  }
+}
+
+.activeIndicator {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, $matte-baby-pink, $pastel-pink-accent);
+  border-radius: $radius-full;
 }
 
 .cartButton {
   position: relative;
   background: linear-gradient(135deg, $matte-baby-pink, $pastel-pink-accent);
-  padding: $spacing-xs $spacing-sm;
+  padding: $spacing-sm;
   border-radius: $radius-full;
-  font-size: 1rem;
-  transition: transform $transition-fast;
+  font-size: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(247, 198, 214, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 48px;
+  min-height: 48px;
 
   @include desktop-up {
     padding: $spacing-sm $spacing-md;
-    font-size: 1.25rem;
+    font-size: 1.75rem;
+    min-width: 56px;
+    min-height: 56px;
   }
 
   &:hover {
-    transform: scale(1.1);
+    box-shadow: 0 6px 24px rgba(247, 198, 214, 0.6);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
 .cartBadge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: $chocolate-brown;
+  top: -6px;
+  right: -6px;
+  background: linear-gradient(135deg, $chocolate-brown, #3d2418);
   color: $soft-white;
-  width: 20px;
-  height: 20px;
+  min-width: 22px;
+  min-height: 22px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   font-weight: 700;
+  padding: 2px;
+  box-shadow: 0 2px 8px rgba(91, 58, 41, 0.4);
+  border: 2px solid $soft-white;
   
   @include desktop-up {
-    width: 24px;
-    height: 24px;
-    font-size: 0.75rem;
+    min-width: 26px;
+    min-height: 26px;
+    font-size: 0.875rem;
+    top: -8px;
+    right: -8px;
   }
 }

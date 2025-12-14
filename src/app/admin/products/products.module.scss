@@ -1,3 +1,4 @@
+// src/app/admin/products/products.module.scss
 @import '../../../styles/responsive';
 @import '../../../styles/variables';
 @import '../../../styles/mixins';
@@ -16,10 +17,31 @@
   justify-content: space-between;
   align-items: start;
   margin-bottom: $spacing-2xl;
+  flex-wrap: wrap;
+  gap: $spacing-md;
 
   p {
     color: $text-light;
     font-size: 1.125rem;
+  }
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  background: linear-gradient(135deg, $matte-baby-pink, $pastel-pink-accent);
+  color: $chocolate-brown;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: $radius-md;
+  box-shadow: 0 4px 12px rgba(247, 198, 214, 0.4);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(247, 198, 214, 0.6);
+    transform: translateY(-2px);
   }
 }
 
@@ -35,6 +57,7 @@
 
   &:hover {
     transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(247, 198, 214, 0.3);
   }
 }
 
@@ -84,4 +107,22 @@
 .actions {
   display: flex;
   gap: $spacing-sm;
+}
+
+.editButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xs $spacing-lg;
+  background: rgba(247, 198, 214, 0.2);
+  color: $chocolate-brown;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: $radius-md;
+  border: 2px solid $matte-baby-pink;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(247, 198, 214, 0.4);
+  }
 }

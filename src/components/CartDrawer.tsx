@@ -1,3 +1,4 @@
+// src/components/CartDrawer.tsx
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,6 +39,7 @@ export default function CartDrawer() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className={styles.overlay}
             onClick={handleClose}
           />
@@ -46,25 +48,43 @@ export default function CartDrawer() {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className={styles.drawer}
           >
             <div className={styles.header}>
-              <h2>Shopping Cart</h2>
-              <button onClick={handleClose} className={styles.closeButton}>
+              <h2>
+                Shopping Cart
+                {items.length > 0 && (
+                  <span className={styles.count}>({items.length})</span>
+                )}
+              </h2>
+              <motion.button
+                onClick={handleClose}
+                className={styles.closeButton}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
                 ×
-              </button>
+              </motion.button>
             </div>
 
             <div className={styles.items}>
               {items.length === 0 ? (
                 <div className={styles.empty}>
+                  <span className={styles.emptyIcon}>🛍️</span>
                   <p>Your cart is empty</p>
                   <Button onClick={handleClose}>Continue Shopping</Button>
                 </div>
               ) : (
                 items.map((item) => (
-                  <div key={item.product.id} className={styles.item}>
+                  <motion.div
+                    key={item.product.id}
+                    layout
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className={styles.item}
+                  >
                     <div className={styles.itemImage}>
                       <Image
                         src={item.product.image}
@@ -91,7 +111,7 @@ export default function CartDrawer() {
                             )
                           }
                         >
-                          -
+                          −
                         </button>
                         <span>{item.quantity}</span>
                         <button
@@ -109,25 +129,40 @@ export default function CartDrawer() {
                       </div>
                     </div>
                     
-                    <button
-                      onClick={() => dispatch(removeFromCart(item.product.id))}
-                      className={styles.removeButton}
-                    >
-                      🗑️
-                    </button>
-                  </div>
+                    <div className={styles.itemRight}>
+                      <span className={styles.itemTotal}>
+                        {formatPrice(item.product.price * item.quantity)}
+                      </span>
+                      <button
+                        onClick={() => dispatch(removeFromCart(item.product.id))}
+                        className={styles.removeButton}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </motion.div>
                 ))
               )}
             </div>
 
             {items.length > 0 && (
               <div className={styles.footer}>
-                <div className={styles.total}>
-                  <span>Total:</span>
-                  <span>{formatPrice(total)}</span>
+                <div className={styles.summary}>
+                  <div className={styles.summaryRow}>
+                    <span>Subtotal</span>
+                    <span>{formatPrice(total)}</span>
+                  </div>
+                  <div className={styles.summaryRow}>
+                    <span>Delivery</span>
+                    <span className={styles.free}>Free</span>
+                  </div>
+                  <div className={styles.total}>
+                    <span>Total</span>
+                    <span>{formatPrice(total)}</span>
+                  </div>
                 </div>
-                <Button onClick={handleCheckout} fullWidth>
-                  Proceed to Checkout
+                <Button onClick={handleCheckout} fullWidth size="lg">
+                  Proceed to Checkout →
                 </Button>
               </div>
             )}

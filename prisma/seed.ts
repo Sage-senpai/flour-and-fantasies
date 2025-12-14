@@ -1,3 +1,4 @@
+// prisma/seed.ts
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
@@ -14,7 +15,7 @@ async function main() {
     update: {},
     create: {
       email: 'admin@bakery.com',
-      name: 'Admin User',
+      name: 'Daniella',
       hashedPassword,
       role: 'ADMIN',
     },
@@ -22,7 +23,7 @@ async function main() {
 
   console.log('✅ Admin user created:', admin.email);
 
-  // Sample products
+  // Sample products with working placeholder images
   const products = [
     {
       name: 'Rose Velvet Cake',
@@ -30,7 +31,7 @@ async function main() {
       price: 45.99,
       category: 'Cakes',
       description: 'Ethereal rose-infused velvet cake with cream cheese frosting and edible rose petals.',
-      image: '/products/rose-velvet.jpg',
+      image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop',
       stock: 12,
     },
     {
@@ -39,7 +40,7 @@ async function main() {
       price: 42.99,
       category: 'Cakes',
       description: 'Decadent triple-layer chocolate cake with rich ganache and chocolate shavings.',
-      image: '/products/chocolate-dream.jpg',
+      image: 'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=600&h=400&fit=crop',
       stock: 15,
     },
     {
@@ -48,7 +49,7 @@ async function main() {
       price: 39.99,
       category: 'Cakes',
       description: 'Light and fluffy vanilla sponge with whipped cream frosting and fresh berries.',
-      image: '/products/vanilla-cloud.jpg',
+      image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&h=400&fit=crop',
       stock: 10,
     },
     {
@@ -57,7 +58,7 @@ async function main() {
       price: 48.99,
       category: 'Cakes',
       description: 'Fresh strawberry cake with strawberry compote layers and vanilla buttercream.',
-      image: '/products/strawberry-bliss.jpg',
+      image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&h=400&fit=crop',
       stock: 8,
     },
     {
@@ -66,7 +67,7 @@ async function main() {
       price: 24.99,
       category: 'Pastries',
       description: 'Box of 12 delicate French macarons in rose, vanilla, and raspberry flavors.',
-      image: '/products/macarons.jpg',
+      image: 'https://images.unsplash.com/photo-1569864358642-9d1684040f43?w=600&h=400&fit=crop',
       stock: 20,
     },
     {
@@ -75,7 +76,7 @@ async function main() {
       price: 18.99,
       category: 'Pastries',
       description: 'Light choux pastry filled with vanilla cream and dusted with powdered sugar.',
-      image: '/products/cream-puffs.jpg',
+      image: 'https://images.unsplash.com/photo-1587241321921-91a834d6d191?w=600&h=400&fit=crop',
       stock: 25,
     },
     {
@@ -84,7 +85,7 @@ async function main() {
       price: 22.99,
       category: 'Pastries',
       description: 'Classic French eclairs with chocolate ganache and pastry cream filling.',
-      image: '/products/eclairs.jpg',
+      image: 'https://images.unsplash.com/photo-1612203985729-70726954388c?w=600&h=400&fit=crop',
       stock: 18,
     },
     {
@@ -93,7 +94,7 @@ async function main() {
       price: 28.99,
       category: 'Pastries',
       description: 'Buttery tart shells with vanilla cream and fresh raspberries.',
-      image: '/products/raspberry-tarts.jpg',
+      image: 'https://images.unsplash.com/photo-1519915212116-7cfef71f1d3e?w=600&h=400&fit=crop',
       stock: 14,
     },
   ];

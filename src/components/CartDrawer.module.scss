@@ -1,4 +1,4 @@
-
+// src/components/CartDrawer.module.scss
 @import '../styles/variables';
 @import '../styles/mixins';
 @import '../styles/responsive';
@@ -17,36 +17,77 @@
   right: 0;
   bottom: 0;
   width: 100%;
-  max-width: 480px;
-  @include glassy-card;
-  border-radius: 0;
+  max-width: 550px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  box-shadow: -4px 0 24px rgba(91, 58, 41, 0.1);
   z-index: 999;
   display: flex;
   flex-direction: column;
+
+  @include mobile-only {
+    max-width: 100%;
+  }
+
+  @include desktop-up {
+    max-width: 600px;
+  }
 }
 
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: $spacing-lg;
-  border-bottom: 1px solid $border-color;
+  border-bottom: 2px solid rgba(247, 198, 214, 0.3);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+
+  @include desktop-up {
+    padding: $spacing-xl;
+  }
 
   h2 {
     margin: 0;
     color: $chocolate-brown;
+    font-size: 1.5rem;
+    font-family: $font-secondary;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+
+    @include desktop-up {
+      font-size: 1.75rem;
+    }
   }
+}
+
+.count {
+  font-size: 0.875rem;
+  color: $text-light;
+  font-weight: 500;
 }
 
 .closeButton {
   background: none;
-  font-size: 2rem;
-  color: $text-light;
+  border: none;
+  color: $chocolate-brown;
+  font-size: 2.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: $radius-md;
+  transition: all 0.2s ease;
   line-height: 1;
-  transition: color $transition-fast;
 
   &:hover {
-    color: $chocolate-brown;
+    background: rgba(247, 198, 214, 0.2);
   }
 }
 
@@ -54,33 +95,80 @@
   flex: 1;
   overflow-y: auto;
   padding: $spacing-lg;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(247, 198, 214, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $matte-baby-pink;
+    border-radius: $radius-full;
+  }
+
+  @include desktop-up {
+    padding: $spacing-xl;
+  }
 }
 
 .empty {
-  @include flex-center;
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: $spacing-lg;
   height: 100%;
-  color: $text-light;
+  text-align: center;
+  padding: $spacing-2xl;
+
+  p {
+    color: $text-light;
+    font-size: 1.125rem;
+  }
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  opacity: 0.5;
 }
 
 .item {
   display: flex;
   gap: $spacing-md;
-  padding: $spacing-md;
-  @include glassy-card;
+  padding: $spacing-lg;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(247, 198, 214, 0.2);
   border-radius: $radius-lg;
   margin-bottom: $spacing-md;
-  position: relative;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $matte-baby-pink;
+    box-shadow: 0 4px 12px rgba(247, 198, 214, 0.2);
+  }
+
+  @include desktop-up {
+    padding: $spacing-xl;
+    gap: $spacing-lg;
+  }
 }
 
 .itemImage {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: $radius-md;
   overflow: hidden;
   flex-shrink: 0;
+  background: $pastel-pink-accent;
+
+  @include desktop-up {
+    width: 110px;
+    height: 110px;
+  }
 }
 
 .image {
@@ -89,24 +177,39 @@
 
 .itemDetails {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  min-width: 0;
 
   h3 {
     font-size: 1rem;
-    margin-bottom: $spacing-xs;
+    margin: 0;
     color: $chocolate-brown;
+    font-weight: 600;
+    line-height: 1.3;
+
+    @include desktop-up {
+      font-size: 1.25rem;
+    }
   }
 }
 
 .itemPrice {
   color: $text-light;
-  margin-bottom: $spacing-sm;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
 }
 
 .quantity {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
+  margin-top: auto;
 
   button {
     width: 32px;
@@ -115,10 +218,22 @@
     background: $pastel-pink-accent;
     color: $chocolate-brown;
     font-weight: 700;
-    transition: all $transition-fast;
+    font-size: 1.125rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $matte-baby-pink;
+    cursor: pointer;
 
     &:hover {
       background: $matte-baby-pink;
+    }
+
+    @include desktop-up {
+      width: 38px;
+      height: 38px;
+      font-size: 1.25rem;
     }
   }
 
@@ -126,32 +241,96 @@
     min-width: 32px;
     text-align: center;
     font-weight: 600;
+    font-size: 1rem;
+    color: $chocolate-brown;
+
+    @include desktop-up {
+      min-width: 38px;
+      font-size: 1.125rem;
+    }
+  }
+}
+
+.itemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.itemTotal {
+  font-weight: 700;
+  color: $chocolate-brown;
+  font-size: 1.125rem;
+  font-family: $font-secondary;
+
+  @include desktop-up {
+    font-size: 1.375rem;
   }
 }
 
 .removeButton {
   background: none;
+  border: none;
   font-size: 1.25rem;
   padding: $spacing-xs;
+  cursor: pointer;
   opacity: 0.6;
-  transition: opacity $transition-fast;
+  transition: all 0.2s ease;
 
   &:hover {
     opacity: 1;
+    transform: scale(1.1);
   }
 }
 
 .footer {
+  position: sticky;
+  bottom: 0;
   padding: $spacing-lg;
-  border-top: 1px solid $border-color;
+  border-top: 2px solid rgba(247, 198, 214, 0.3);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+
+  @include desktop-up {
+    padding: $spacing-xl;
+  }
+}
+
+.summary {
+  margin-bottom: $spacing-lg;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-sm 0;
+  color: $text-dark;
+  font-size: 0.9375rem;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
+}
+
+.free {
+  color: #22c55e;
+  font-weight: 600;
 }
 
 .total {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: $spacing-md;
-  font-size: 1.5rem;
+  padding: $spacing-md 0;
+  border-top: 2px solid $matte-baby-pink;
+  margin-top: $spacing-sm;
+  font-size: 1.375rem;
   font-weight: 700;
   color: $chocolate-brown;
+  font-family: $font-secondary;
+
+  @include desktop-up {
+    font-size: 1.5rem;
+  }
 }

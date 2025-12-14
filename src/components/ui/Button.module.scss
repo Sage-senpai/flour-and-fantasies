@@ -1,20 +1,26 @@
+// src/components/ui/Button.module.scss
 @import '../../styles/responsive';
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
 .button {
-  padding: $spacing-sm $spacing-lg;
-  border-radius: $radius-full;
+  border-radius: $radius-md;
   font-weight: 600;
   font-size: 1rem;
-  transition: all $transition-normal;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  white-space: nowrap;
+  font-family: $font-primary;
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: not-allowed;
   }
 
@@ -22,24 +28,66 @@
     width: 100%;
   }
 
+  // Sizes
+  &.sm {
+    padding: $spacing-xs $spacing-md;
+    font-size: 0.875rem;
+    border-radius: $radius-sm;
+
+    @include desktop-up {
+      padding: $spacing-xs $spacing-lg;
+      font-size: 0.9375rem;
+    }
+  }
+
+  &.md {
+    padding: $spacing-sm $spacing-lg;
+    font-size: 1rem;
+
+    @include desktop-up {
+      padding: $spacing-md $spacing-xl;
+      font-size: 1.0625rem;
+    }
+  }
+
+  &.lg {
+    padding: $spacing-md $spacing-xl;
+    font-size: 1.125rem;
+
+    @include desktop-up {
+      padding: $spacing-lg $spacing-2xl;
+      font-size: 1.25rem;
+    }
+  }
+
+  // Variants
   &.primary {
     background: linear-gradient(135deg, $matte-baby-pink, $pastel-pink-accent);
     color: $chocolate-brown;
-    box-shadow: 0 4px 16px rgba(247, 198, 214, 0.4);
+    box-shadow: 0 4px 12px rgba(247, 198, 214, 0.4);
 
     &:hover:not(:disabled) {
-      box-shadow: 0 6px 24px rgba(247, 198, 214, 0.6);
+      box-shadow: 0 6px 20px rgba(247, 198, 214, 0.6);
+      background: linear-gradient(135deg, lighten($matte-baby-pink, 5%), lighten($pastel-pink-accent, 5%));
+    }
+
+    &:active:not(:disabled) {
+      box-shadow: 0 2px 8px rgba(247, 198, 214, 0.5);
     }
   }
 
   &.secondary {
     background: $chocolate-brown;
     color: $soft-white;
-    box-shadow: 0 4px 16px rgba(91, 58, 41, 0.3);
+    box-shadow: 0 4px 12px rgba(91, 58, 41, 0.3);
 
     &:hover:not(:disabled) {
-      background: lighten($chocolate-brown, 5%);
-      box-shadow: 0 6px 24px rgba(91, 58, 41, 0.5);
+      background: lighten($chocolate-brown, 8%);
+      box-shadow: 0 6px 20px rgba(91, 58, 41, 0.5);
+    }
+
+    &:active:not(:disabled) {
+      box-shadow: 0 2px 8px rgba(91, 58, 41, 0.4);
     }
   }
 
@@ -47,9 +95,36 @@
     background: transparent;
     color: $chocolate-brown;
     border: 2px solid $matte-baby-pink;
+    box-shadow: none;
 
     &:hover:not(:disabled) {
-      background: rgba(247, 198, 214, 0.1);
+      background: rgba(247, 198, 214, 0.15);
+      border-color: darken($matte-baby-pink, 10%);
     }
+
+    &:active:not(:disabled) {
+      background: rgba(247, 198, 214, 0.25);
+    }
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

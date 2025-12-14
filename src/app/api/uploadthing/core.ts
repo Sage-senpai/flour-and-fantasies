@@ -1,3 +1,4 @@
+// src/app/api/uploadthing/core.ts
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -5,19 +6,24 @@ import { authOptions } from '@/lib/auth';
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  productImage: f({ image: { maxFileSize: '4MB', maxFileCount: 1 } })
+  productImage: f({ 
+    image: { 
+      maxFileSize: '4MB', 
+      maxFileCount: 1 
+    } 
+  })
     .middleware(async () => {
       const session = await getServerSession(authOptions);
 
       if (!session || session.user.role !== 'ADMIN') {
-        throw new Error('Unauthorized');
+        throw new Error('Unauthorized - Admin access required');
       }
 
       return { userId: session.user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log('Upload complete for userId:', metadata.userId);
-      console.log('file url', file.url);
+      console.log('File URL:', file.url);
       return { uploadedBy: metadata.userId, url: file.url };
     }),
 } satisfies FileRouter;

@@ -1,90 +1,110 @@
+// src/components/ProductCard.module.scss
 @import '../styles/variables';
 @import '../styles/mixins';
 @import '../styles/responsive';
 
 .card {
   @include glassy-card;
-  border-radius: $radius-lg;
+  border-radius: $radius-xl;
   overflow: hidden;
-  transition: all $transition-normal;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-
-  @include desktop-up {
-    border-radius: $radius-xl;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   &:hover {
-    @include pastel-shadow;
+    box-shadow: 0 12px 40px rgba(247, 198, 214, 0.4);
   }
 }
 
 .imageWrapper {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: 240px;
   overflow: hidden;
-  background: $pastel-pink-accent;
+  background: linear-gradient(135deg, $pastel-pink-accent, #fff);
 
   @include desktop-up {
     height: 280px;
   }
 }
 
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .image {
   object-fit: cover;
-  transition: transform $transition-slow;
-
-  .card:hover & {
-    transform: scale(1.05);
-  }
 }
 
 .badge {
   position: absolute;
-  top: $spacing-sm;
-  right: $spacing-sm;
-  background: $chocolate-brown;
+  top: $spacing-md;
+  right: $spacing-md;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
   color: $soft-white;
-  padding: $spacing-xs $spacing-sm;
+  padding: $spacing-xs $spacing-md;
   border-radius: $radius-full;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+  z-index: 2;
 
   @include desktop-up {
-    top: $spacing-md;
-    right: $spacing-md;
-    padding: $spacing-xs $spacing-md;
     font-size: 0.875rem;
   }
 }
 
 .couponBadge {
   position: absolute;
-  top: $spacing-sm;
-  left: $spacing-sm;
+  top: $spacing-md;
+  left: $spacing-md;
   background: linear-gradient(135deg, #22c55e, #16a34a);
   color: $soft-white;
-  padding: $spacing-xs $spacing-sm;
+  padding: $spacing-xs $spacing-md;
   border-radius: $radius-full;
   font-size: 0.75rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+  z-index: 2;
 
   @include desktop-up {
-    top: $spacing-md;
-    left: $spacing-md;
-    padding: $spacing-xs $spacing-md;
     font-size: 0.875rem;
   }
 }
 
+.outOfStockOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(91, 58, 41, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+
+  span {
+    color: $soft-white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+}
+
 .content {
-  padding: $spacing-md;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 
   @include desktop-up {
-    padding: $spacing-lg;
+    padding: $spacing-xl;
   }
 }
 
@@ -92,9 +112,9 @@
   display: inline-block;
   color: $matte-baby-pink;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   margin-bottom: $spacing-xs;
 
   @include desktop-up {
@@ -107,6 +127,8 @@
   color: $chocolate-brown;
   margin-bottom: $spacing-sm;
   font-family: $font-secondary;
+  font-weight: 700;
+  line-height: 1.3;
 
   @include desktop-up {
     font-size: 1.5rem;
@@ -121,38 +143,47 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden; 
-  orient: vertical;
-overflow: hidden;
-@include desktop-up {
-font-size: 0.9375rem;
+  overflow: hidden;
+  flex: 1;
+
+  @include desktop-up {
+    font-size: 0.9375rem;
+  }
 }
-}
+
 .footer {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding-top: $spacing-md;
-border-top: 1px solid $border-color;
-gap: $spacing-sm;
-flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $spacing-md;
+  border-top: 2px solid rgba(247, 198, 214, 0.3);
+  gap: $spacing-md;
+  margin-top: auto;
 }
+
+.pricing {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
 .price {
-font-size: 1.25rem;
-font-weight: 700;
-color: $chocolate-brown;
-@include desktop-up {
-font-size: 1.5rem;
+  font-size: 1.375rem;
+  font-weight: 800;
+  color: $chocolate-brown;
+  font-family: $font-secondary;
+
+  @include desktop-up {
+    font-size: 1.5rem;
+  }
 }
-}
+
 .couponPrice {
-font-size: 1rem;
-font-weight: 600;
-color: #22c55e;
-display: flex;
-align-items: center;
-gap: 4px;
-@include desktop-up {
-font-size: 1.125rem;
-}
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #22c55e;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
 }

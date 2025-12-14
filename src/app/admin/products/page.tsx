@@ -1,8 +1,8 @@
+// src/app/admin/products/page.tsx
 import Link from 'next/link';
 import Image from 'next/image';
 import { prisma } from '@/lib/prisma';
 import { formatPrice } from '@/utils/formatPrice';
-import Button from '@/components/ui/Button';
 import type { Product } from '@/types';
 import styles from './products.module.scss';
 
@@ -23,8 +23,8 @@ export default async function AdminProductsPage() {
           <h1>Products Management</h1>
           <p>Total Products: {products.length}</p>
         </div>
-        <Link href="/admin/products/create">
-          <Button>+ Add New Product</Button>
+        <Link href="/admin/products/create" className={styles.addButton}>
+          + Add New Product
         </Link>
       </div>
 
@@ -47,8 +47,9 @@ export default async function AdminProductsPage() {
                 Stock: {product.stock} {product.stock < 5 && '⚠️ Low'}
               </p>
               <div className={styles.actions}>
-                <Link href={`/admin/products/${product.id}`}>
-                  <Button variant="outline">Edit</Button>
+                {/* Use slug instead of id */}
+                <Link href={`/admin/products/${product.slug}`} className={styles.editButton}>
+                  Edit
                 </Link>
               </div>
             </div>
